@@ -72,6 +72,7 @@ df["category"] = df["category"].str.lower()
 ```
 Repeat the same procedure with the rest of the columns containing text values.
 
+---
 ## 6. Remove records with missing essential values
 The variable `required_columns` selects the columns in which the presence of a value is essential. Then the `dropna` function removes rows from the DataFrame that contain missing values in any of the columns listed in `required_columns`.
 ```python
@@ -154,7 +155,7 @@ In column "COLUMN_NAME", replace the value "TEXT_1" with "TEXT_2":
 ```python
 df["COLUMN_NAME"] = df["COLUMN_NAME"].replace("TEXT_1", "TEXT_2")
 ```
----
+
 For example, we can replace categorical text values with category numbers:
 ```python
 df["category"] = df["category"].replace("films (english)", 1)
@@ -166,6 +167,8 @@ You can check the content with the command `df["category"]`, but if you run `df.
 ```python
 df["category"] = pd.to_numeric(df["category"], errors="coerce").astype("Int64")
 ```
+
+---
 ## 10. Inspect the cleaned dataset
 ```python
 df.info()
@@ -180,8 +183,6 @@ df.to_csv("netflix_weekly_clean.csv", index=False)
 The new file will be saved in the `/content` directory.
 
 ---
-
-
 ## Checkpoint
 
 1. Which columns contained missing values?
@@ -190,6 +191,7 @@ The new file will be saved in the `/content` directory.
 4. Which data types were corrected?
 5. How many samples remain after cleaning?
 
+---
 ## Expected result
 
 At the end of this activity, you should have:
@@ -201,7 +203,6 @@ At the end of this activity, you should have:
 - a file named `netflix_weekly_clean.csv`.
 
 ---
-
 ## Sources
 
 - Kaggle, *Netflix Weekly Views Data*:  
