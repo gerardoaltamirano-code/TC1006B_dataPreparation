@@ -8,6 +8,7 @@ By the end of this tutorial, you will be able to:
 - identify and handle missing values;
 - remove duplicate records;
 - detect invalid numerical values;
+- create useful variables; and
 - save a cleaned dataset.
 
 ## Business question
@@ -123,18 +124,18 @@ Depending on the variable, we can use mixed options:
 ```python
 valid_rows = (
     df["weekly_rank"].between(1, 10)
-    & ((df["weekly_hours_viewed"] >= 0) | df["weekly_hours_viewed"].isna())
-    & ((df["weekly_views"] >= 0) | df["weekly_views"].isna())
-    & (df["runtime"] > 0)
-    & ((df["cumulative_weeks_in_top_10"] >= 1) | df["cumulative_weeks_in_top_10"].isna())
+    & (df["weekly_hours_viewed"] > 0)
+    & (df["weekly_views"] > 0)
+    & ((df["runtime"] >= 0) | df["weekly_views"].isna())
+    & (df["cumulative_weeks_in_top_10"] >= 1)
 )
 ```
+
 Now we print the number of invalid records and their indexes:
 ```python
 invalid_indices = df.index[~valid_rows]
 print("Invalid record indices:", invalid_indices.tolist())
 print("Number of invalid records:", len(invalid_indices))
-df.drop(index=invalid_indices, inplace=True)
 ```
 
 Visualize the invalid records:
