@@ -129,13 +129,24 @@ valid_rows = (
     & ((df["cumulative_weeks_in_top_10"] >= 1) | df["cumulative_weeks_in_top_10"].isna())
 )
 ```
-Now we print the number of invalid records and their indexes, and delete them from the DataFrame:
+Now we print the number of invalid records and their indexes:
 ```python
 invalid_indices = df.index[~valid_rows]
 print("Invalid record indices:", invalid_indices.tolist())
 print("Number of invalid records:", len(invalid_indices))
 df.drop(index=invalid_indices, inplace=True)
 ```
+
+Visualize the invalid records:
+```python
+df.loc[invalid_indices].head(1)
+```
+
+Delete invalid records from the DataFrame:
+```python
+df.drop(index=invalid_indices, inplace=True)
+```
+
 ---
 ## 9. Rename text values
 In column "COLUMN_NAME", replace the value "TEXT_1" with "TEXT_2":
