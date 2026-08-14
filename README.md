@@ -15,19 +15,28 @@ By the end of this tutorial, you will be able to:
 Our merchandising company needs reliable and consistent data before identifying titles with commercial potential.
 Incorrect data types, duplicate records, missing values, or inconsistent categories could produce misleading results.
 
-### 1. Read the CSV file
-Load the file into a pandas DataFrame.
+
+### 1. Download the updated dataset
+
+Download the latest global weekly dataset from:
+
+<https://www.netflix.com/tudum/top10>
+
+---
+
+### 2. Read the file
+
+Upload the file to Google Colab and load it into a pandas DataFrame.
+
 ```python
-import kagglehub
 import pandas as pd
-# Download the latest version of the dataset
-DATASET_PATH = kagglehub.dataset_download("risakashiwabara/netfllix-weekly-views-data")
-print("Path to dataset files:", DATASET_PATH)
-FILE = DATASET_PATH + "/2026-05-25_global_weekly.csv"
-df = pd.read_csv(FILE)
+xls = pd.ExcelFile("2026-08-14_global_weekly.xlsx")
+df = xls.parse(xls.sheet_names[0])
 df.info()
 ```
+
 ---
+
 ## 3. Eliminate unnecessary spaces
 We have four variables containing text: "week", "category", "show_title", and "season_title".
 To eliminate all the spaces at the beginning and end of the text, we use the `strip()` function:
@@ -47,6 +56,7 @@ Example:
 Repeat the same procedure with the rest of the columns containing text values.
 
 ---
+
 ## 4. Correct the data type for dates
 Convert `week` to a date:
 ```python
@@ -62,7 +72,9 @@ Check that the data type is now a datetime type:
 ```python
 df.info()
 ```
+
 ---
+
 ## 5. Standardize text values
 Capitalization differences and repeated spaces may cause equivalent values to be treated as different categories.
 
@@ -73,13 +85,16 @@ df["category"] = df["category"].str.lower()
 Repeat the same procedure with the rest of the columns containing text values.
 
 ---
+
 ## 6. Remove records with missing essential values
 The variable `required_columns` selects the columns in which the presence of a value is essential. Then the `dropna` function removes rows from the DataFrame that contain missing values in any of the columns listed in `required_columns`.
 ```python
 required_columns = ["week", "category", "weekly_rank", "show_title", "season_title", "weekly_hours_viewed", "runtime", "weekly_views", "cumulative_weeks_in_top_10"]
 df = df.dropna(subset=required_columns)
 ```
+
 ---
+
 ## 7. Remove duplicate records
 First, count the number of duplicated rows:
 ```python
@@ -100,6 +115,7 @@ df = df.drop_duplicates(subset=columns)
 Replace the column names with the variables you want to compare. In both cases, pandas keeps the first occurrence.
 
 ---
+
 ## 8. Validate numerical values
 Apply filters on numerical columns. The following command:
 ```python
@@ -150,6 +166,7 @@ df.drop(index=invalid_indices, inplace=True)
 ```
 
 ---
+
 ## 9. Rename text values
 In column "COLUMN_NAME", replace the value "TEXT_1" with "TEXT_2":
 ```python
@@ -169,6 +186,7 @@ df["category"] = pd.to_numeric(df["category"], errors="coerce").astype("Int64")
 ```
 
 ---
+
 ## 10. Inspect the cleaned dataset
 ```python
 df.info()
@@ -176,6 +194,7 @@ df.info()
 Compare the original and cleaned datasets.
 
 ---
+
 ## 11. Save the cleaned dataset
 ```python
 df.to_csv("netflix_weekly_clean.csv", index=False)
@@ -183,6 +202,7 @@ df.to_csv("netflix_weekly_clean.csv", index=False)
 The new file will be saved in the `/content` directory.
 
 ---
+
 ## Checkpoint
 
 1. Which columns contained missing values?
@@ -192,6 +212,7 @@ The new file will be saved in the `/content` directory.
 5. How many samples remain after cleaning?
 
 ---
+
 ## Expected result
 
 At the end of this activity, you should have:
@@ -203,6 +224,7 @@ At the end of this activity, you should have:
 - a file named `netflix_weekly_clean.csv`.
 
 ---
+
 ## Sources
 
 - Kaggle, *Netflix Weekly Views Data*:  
